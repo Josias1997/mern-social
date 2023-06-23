@@ -1,12 +1,23 @@
 import express from "express";
+import { addPost, uploadFile, getPosts } from "../controllers/post.js";
+import multer from "multer";
 
 const router = express.Router();
 
-router.get("/post/:idPost", (res, req) => {});
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/uploads");
+  },
+  filename: function (res, file, cb) {
+    cb(null, Date.now() + "_" + file.originalname);
+  },
+});
 
-router.get("/posts", (res, req) => {});
+const upload = multer({ storage: storage });
 
-router.post("/post", (res, req) => {});
-router.delete("/post/:idPost", (res, req) => {});
+router.post("/upload-file", upload.single("image"), uploadFile);
+
+router.post("/", addPost);
+router.get("/", getPosts);
 
 export default router;
