@@ -25,3 +25,22 @@ export const getPosts = (req, res) => {
     return res.status(200).json({ posts: data });
   });
 };
+
+export const getUserPosts = (req, res) => {
+  const userId = req.params.userId;
+
+  const query = "SELECT * from posts WHERE user_id = ?";
+  db.query(query, [userId], (err, data) => {
+    if (err) return res.status(500).json({ message: err.message });
+    return res.status(200).json({ posts: data });
+  });
+};
+
+export const deletePost = (req, res) => {
+  const postId = req.params.postId;
+  const query = "DELETE from posts where id = ?";
+  db.query(query, [postId], (err, data) => {
+    if (err) return res.status(500).json({ message: err.message });
+    return res.status(200).json({ message: "Post deleted successfully" });
+  });
+};

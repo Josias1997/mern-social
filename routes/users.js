@@ -1,5 +1,10 @@
 import express from "express";
-import { editProfile, getUser } from "../controllers/user.js";
+import {
+  editProfile,
+  followOrUnfollow,
+  getUser,
+  testRelationhip,
+} from "../controllers/user.js";
 import multer from "multer";
 
 const router = express.Router();
@@ -23,4 +28,6 @@ router.post(
   editProfile
 );
 
+router.post("/follow-unfollow/:followerId/:followingId", followOrUnfollow);
+router.get("/test-relationship/:followerId/:followingId", testRelationhip);
 export default router;
